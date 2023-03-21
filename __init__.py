@@ -17,6 +17,10 @@
     
 import bpy
 
+from .src.addon_preferences import SomeAddonPrefs
+from .src.addon_properties import ScripterProperties
+from .src.scripter import python_dependencies
+
 bl_info = {
     "name": "Scripter",
     "description": "Tools and utils for scripting blender easier.",
@@ -25,38 +29,15 @@ bl_info = {
     "blender": (2, 9, 0),
     "location": "Scripting",
     "doc_url": "https://github.com/industArk/bl_scripter/blob/main/README.md",
-    "category": "Text Editor",
+    "category": "System",
 }
-
-
-class SomeAddonPrefs(bpy.types.AddonPreferences):
-    bl_idname = __name__
-    # here you define the addons customizable props
-    some_prop = bpy.props.FloatProperty(default=1.0)
-
-    # here you specify how they are drawn
-    def draw(self, context):
-        layout = self.layout
-        layout.prop(self, "some_prop")
-
-
-def python_dependencies():
-    import pip
-    import sys
-    import os
-    
-    packages = []
-    deps_path = os.path.expanduser("~") + "/.scripter/lib"
-    check_folder_and_create(deps_path)
-    for pack in packages:
-        if not pack in os.listdir(deps_path):
-            pip.main(["install", f"--target={deps_path}", pack])
-    sys.path.append(deps_path)
 
 
 classes = [SomeAddonPrefs,]
 
 def register():
+    bpy.utils.register_class(ScripterProperties)    
+    bpy.types.Window.scripter = bpy.props.PointerProperty(type=ScripterProperties)
     python_dependencies()
     for cls in classes:
         bpy.utils.register_class(cls)
