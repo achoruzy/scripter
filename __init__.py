@@ -1,4 +1,4 @@
-# <one line to give the program's name and a brief idea of what it does.>
+# Scripter
 # Copyright (C) 2023  Data Verft Arkadiusz Choruzy aka inDustArk
 
 # This program is free software: you can redistribute it and/or modify
