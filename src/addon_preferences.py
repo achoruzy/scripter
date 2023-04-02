@@ -14,7 +14,9 @@ class ScripterPreferences(bpy.types.AddonPreferences):
     
     menus: bpy.props.EnumProperty(name="Menus", items=menus, default="PYTHON")
 
-    def draw(self, context):       
+    def draw(self, context):
+        scripter = context.scene.scripter
+           
         layout = self.layout
         column = layout.column(align=True)
         row = column.row()
@@ -22,15 +24,17 @@ class ScripterPreferences(bpy.types.AddonPreferences):
         box = column.box()
 
         if self.menus == "PYTHON":
-            self.draw_python_menu(box)
+            self.draw_python_menu(box, scripter)
 
         elif self.menus == "CREDITS":
-            self.draw_credits_menu(box)
+            self.draw_credits_menu(box, scripter)
     
-    def draw_python_menu(box):
+    def draw_python_menu(self, box, scripter):
         box.label(text="Python Menu")
+        box.prop(scripter, "pip_lib_dir")
         
-    def draw_credits_menu(box):
+        
+    def draw_credits_menu(self, box, scripter):
         box.label(text="Credits Menu")     
     
     @classmethod

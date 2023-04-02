@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
     
-    
+
 import bpy
 
 from .src.addon_preferences import ScripterPreferences
@@ -37,20 +37,22 @@ print(__package__)
 
 classes = [
     ScripterPreferences.override_idname(__package__),
+    ScripterProperties,
     ]
 
 
 def register():
-    bpy.types.Scene.scripter = bpy.props.PointerProperty(type=ScripterProperties)
-    
     # python_dependencies()
     
     for cls in classes:
         bpy.utils.register_class(cls)
     
+    bpy.types.Scene.scripter = bpy.props.PointerProperty(type=ScripterProperties)
+    
 def unregister():
     for cls in classes:
         bpy.utils.unregister_class(cls)
+    del bpy.types.Scene.scripter
     
 
 if __name__ == "__main__":
