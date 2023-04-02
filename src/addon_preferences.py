@@ -4,14 +4,36 @@
 import bpy
 
 
-class SomeAddonPrefs(bpy.types.AddonPreferences):
-    bl_idname = __name__
-    # here you define the addons customizable props
-    # some_prop = bpy.props.FloatProperty(default=1.0)
+class ScripterPreferences(bpy.types.AddonPreferences):
+    bl_idname = __package__
+    
+    menus = [
+        ("PYTHON", "Python", ""),
+        ("CREDITS", "Credits", "")
+        ]
+    
+    menus: bpy.props.EnumProperty(name="Menus", items=menus, default="PYTHON")
 
-    # here you specify how they are drawn
-    def draw(self, context):
-        addon_properties = context.window.scripter # tym łapie propertisy ze swojego properties group
+    def draw(self, context):       
         layout = self.layout
-        row = layout.row
-        row.prop(addon_properties, "some_prop")
+        column = layout.column(align=True)
+        row = column.row()
+        row.prop(self, "menus", expand=True)
+        box = column.box()
+
+        if self.menus == "PYTHON":
+            self.draw_python_menu(box)
+
+        elif self.menus == "CREDITS":
+            self.draw_credits_menu(box)
+    
+    def draw_python_menu(box):
+        box.label(text="Python Menu")
+        
+    def draw_credits_menu(box):
+        box.label(text="Credits Menu")     
+    
+    @classmethod
+    def override_idname(cls, name):
+        cls.bl_idname = name
+        return cls

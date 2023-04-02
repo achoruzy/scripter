@@ -17,33 +17,40 @@
     
 import bpy
 
-from .src.addon_preferences import SomeAddonPrefs
+from .src.addon_preferences import ScripterPreferences
 from .src.addon_properties import ScripterProperties
 from .src.scripter import python_dependencies
 
+
 bl_info = {
-    "name": "Scripter",
+    "name": "bl_scripter",
     "description": "Tools and utils for scripting blender easier.",
     "author": "Data Verft Arkadiusz Choruzy",
     "version": (2023, 0, 1),
-    "blender": (2, 9, 0),
+    "blender": (3, 0, 0),
     "location": "Scripting",
     "doc_url": "https://github.com/industArk/bl_scripter/blob/main/README.md",
-    "category": "System",
+    "category": "All",
 }
 
+print(__package__)
 
-classes = [SomeAddonPrefs,]
+classes = [
+    ScripterPreferences.override_idname(__package__),
+    ]
+
 
 def register():
-    bpy.utils.register_class(ScripterProperties)    
-    bpy.types.Window.scripter = bpy.props.PointerProperty(type=ScripterProperties)
-    python_dependencies()
+    bpy.types.Scene.scripter = bpy.props.PointerProperty(type=ScripterProperties)
+    
+    # python_dependencies()
+    
     for cls in classes:
         bpy.utils.register_class(cls)
     
 def unregister():
-    ...
+    for cls in classes:
+        bpy.utils.unregister_class(cls)
     
 
 if __name__ == "__main__":

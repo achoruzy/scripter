@@ -9,7 +9,7 @@ def python_dependencies():
     
     packages = []
     deps_path = os.path.expanduser("~") + "/.scripter/lib"
-    check_folder_and_create(deps_path)
+    # check_folder_and_create(deps_path)
     for pack in packages:
         if not pack in os.listdir(deps_path):
             pip.main(["install", f"--target={deps_path}", pack])

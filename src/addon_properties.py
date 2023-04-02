@@ -8,7 +8,5 @@ class ScripterProperties(bpy.types.PropertyGroup):
     
     some_prop: bpy.props.FloatProperty(
         name='some_prop',        
-        default=0.0,
-        update= lambda self, 
-        context: weightUpdate(self, context, 1)
+        default=0.0
     )
