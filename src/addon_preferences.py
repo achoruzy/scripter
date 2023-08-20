@@ -31,7 +31,13 @@ class ScripterPreferences(bpy.types.AddonPreferences):
     
     def draw_python_menu(self, box, scripter):
         box.label(text="Python Menu")
-        box.prop(scripter, "pip_lib_dir")
+        box.prop(scripter, "pip_libs_dir")
+        
+        row = box.row(align=True)
+        row.prop(scripter, "pip_libs_names")
+        row.operator("", text="", icon="ADD")
+        row.operator("", text="", icon="REMOVE")
+        
         
         
     def draw_credits_menu(self, box, scripter):
