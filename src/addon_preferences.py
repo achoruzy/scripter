@@ -4,7 +4,7 @@
 import bpy
 
 
-class ScripterPreferences(bpy.types.AddonPreferences):
+class SCRIPTER_AP_addon_preferences(bpy.types.AddonPreferences):
     bl_idname = __package__
     
     menus = [
@@ -30,14 +30,13 @@ class ScripterPreferences(bpy.types.AddonPreferences):
             self.draw_credits_menu(box, scripter)
     
     def draw_python_menu(self, box, scripter):
-        box.label(text="Python Menu")
+        box.label(text="Python Library Installation Settings Menu")
         box.prop(scripter, "pip_libs_dir")
         
         row = box.row(align=True)
         row.prop(scripter, "pip_libs_names")
-        row.operator("", text="", icon="ADD")
-        row.operator("", text="", icon="REMOVE")
-        
+        row.operator("scripter.pypi_add", text="", icon="ADD")
+        row.operator("scripter.pypi_remove", text="", icon="REMOVE")
         
         
     def draw_credits_menu(self, box, scripter):

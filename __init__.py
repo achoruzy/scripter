@@ -17,8 +17,9 @@
 
 import bpy
 
-from .src.addon_preferences import ScripterPreferences
-from .src.addon_properties import ScripterProperties
+from .src.addon_preferences import SCRIPTER_AP_addon_preferences
+from .src.properties import SCRIPTER_PR_properties
+from .src.properties_ops import SCRIPTER_OT_pypi_list_add, SCRIPTER_OT_pypi_list_remove
 from .src.scripter import python_dependencies
 
 
@@ -36,8 +37,10 @@ bl_info = {
 print(__package__)
 
 classes = [
-    ScripterPreferences.override_idname(__package__),
-    ScripterProperties,
+    SCRIPTER_AP_addon_preferences.override_idname(__package__),
+    SCRIPTER_PR_properties,
+    SCRIPTER_OT_pypi_list_add,
+    SCRIPTER_OT_pypi_list_remove
     ]
 
 
@@ -47,7 +50,7 @@ def register():
     for cls in classes:
         bpy.utils.register_class(cls)
     
-    bpy.types.Scene.scripter = bpy.props.PointerProperty(type=ScripterProperties)
+    bpy.types.Scene.scripter = bpy.props.PointerProperty(type=SCRIPTER_PR_properties)
     
 def unregister():
     for cls in classes:
