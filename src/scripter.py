@@ -6,9 +6,10 @@ def python_dependencies():
     import pip
     import sys
     import os
+    from pathlib import Path
     
-    packages = []
-    deps_path = os.path.expanduser("~") + "/.scripter/lib"
+    packages = ['pandas']
+    deps_path = str(Path(os.path.expanduser("~")+"\.scripter\lib"))
     # check_folder_and_create(deps_path)
     for pack in packages:
         if not pack in os.listdir(deps_path):
