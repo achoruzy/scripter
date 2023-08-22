@@ -40,7 +40,7 @@ class SCRIPTER_AP_addon_preferences(bpy.types.AddonPreferences):
         
         
     def draw_credits_menu(self, box, scripter):
-        box.label(text="Credits Menu")     
+        box.label(text="Credits Menu")
     
     @classmethod
     def override_idname(cls, name):

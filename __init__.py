@@ -34,8 +34,6 @@ bl_info = {
     "category": "All",
 }
 
-print(__package__)
-
 classes = [
     SCRIPTER_AP_addon_preferences.override_idname(__package__),
     SCRIPTER_PR_properties,
@@ -45,7 +43,7 @@ classes = [
 
 
 def register():
-    # python_dependencies()
+    python_dependencies()
     
     for cls in classes:
         bpy.utils.register_class(cls)
