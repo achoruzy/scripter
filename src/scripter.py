@@ -1,16 +1,19 @@
 # Copyright (C) 2023  Data Verft Arkadiusz Choruzy aka inDustArk
 
 
-
-def python_dependencies():
-    import pip
-    import sys
-    import os
-    from pathlib import Path
+import pip
+import sys
+import os
+from pathlib import Path
     
+
+def python_dependencies():   
     packages = ['pandas']
-    deps_path = str(Path(os.path.expanduser("~")+"\.scripter\lib"))
-    # check_folder_and_create(deps_path)
+    
+    path = Path(os.path.expanduser("~")+"\.scripter\lib")
+    path.mkdir(parents=True, exist_ok=True)
+    deps_path = str(path)
+    
     for pack in packages:
         if not pack in os.listdir(deps_path):
             pip.main(["install", f"--target={deps_path}", pack])
