@@ -14,55 +14,54 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
     
-    
+
 import bpy
 
+from .src.addon_preferences import SCRIPTER_AP_addon_preferences
+from .src.properties import SCRIPTER_PR_properties
+from .src.properties_ops import (SCRIPTER_OT_pypi_list_add, SCRIPTER_OT_pypi_list_remove,
+                                 SCRIPTER_OT_pypi_list_update)
+from .src.scripter import Pypi_Handler
+
+
 bl_info = {
-    "name": "Scripter",
+    "name": "bl_scripter",
     "description": "Tools and utils for scripting blender easier.",
     "author": "Data Verft Arkadiusz Choruzy",
     "version": (2023, 0, 1),
-    "blender": (2, 9, 0),
+    "blender": (3, 0, 0),
     "location": "Scripting",
     "doc_url": "https://github.com/industArk/bl_scripter/blob/main/README.md",
-    "category": "Text Editor",
+    "category": "All",
 }
 
+pypi = Pypi_Handler()
 
-class SomeAddonPrefs(bpy.types.AddonPreferences):
-    bl_idname = __name__
-    # here you define the addons customizable props
-    some_prop = bpy.props.FloatProperty(default=1.0)
+classes = [
+    SCRIPTER_AP_addon_preferences.override_idname(__package__),
+    SCRIPTER_PR_properties,
+    ]
 
-    # here you specify how they are drawn
-    def draw(self, context):
-        layout = self.layout
-        layout.prop(self, "some_prop")
+scripter_classes = [
+    SCRIPTER_OT_pypi_list_add,
+    SCRIPTER_OT_pypi_list_remove,
+    SCRIPTER_OT_pypi_list_update
+    ]
 
-
-def python_dependencies():
-    import pip
-    import sys
-    import os
-    
-    packages = []
-    deps_path = os.path.expanduser("~") + "/.scripter/lib"
-    check_folder_and_create(deps_path)
-    for pack in packages:
-        if not pack in os.listdir(deps_path):
-            pip.main(["install", f"--target={deps_path}", pack])
-    sys.path.append(deps_path)
-
-
-classes = [SomeAddonPrefs,]
 
 def register():
-    python_dependencies()
     for cls in classes:
         bpy.utils.register_class(cls)
     
+    for cls in scripter_classes:
+        bpy.utils.register_class(cls.initialize_with(pypi))
+    
+    bpy.types.Scene.scripter = bpy.props.PointerProperty(type=SCRIPTER_PR_properties)
+    
 def unregister():
-    ...
+    for cls in scripter_classes:
+        bpy.utils.unregister_class(cls)
+    del bpy.types.Scene.scripter
     
 
 if __name__ == "__main__":
