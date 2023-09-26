@@ -19,8 +19,9 @@ import bpy
 
 from .src.addon_preferences import SCRIPTER_AP_addon_preferences
 from .src.properties import SCRIPTER_PR_properties
-from .src.properties_ops import SCRIPTER_OT_pypi_list_add, SCRIPTER_OT_pypi_list_remove
-from .src.scripter import python_dependencies
+from .src.properties_ops import (SCRIPTER_OT_pypi_list_add, SCRIPTER_OT_pypi_list_remove,
+                                 SCRIPTER_OT_pypi_list_update)
+from .src.scripter import Pypi_Handler
 
 
 bl_info = {
@@ -34,24 +35,31 @@ bl_info = {
     "category": "All",
 }
 
+pypi = Pypi_Handler()
+
 classes = [
     SCRIPTER_AP_addon_preferences.override_idname(__package__),
     SCRIPTER_PR_properties,
+    ]
+
+scripter_classes = [
     SCRIPTER_OT_pypi_list_add,
-    SCRIPTER_OT_pypi_list_remove
+    SCRIPTER_OT_pypi_list_remove,
+    SCRIPTER_OT_pypi_list_update
     ]
 
 
 def register():
-    python_dependencies()
-    
     for cls in classes:
         bpy.utils.register_class(cls)
+    
+    for cls in scripter_classes:
+        bpy.utils.register_class(cls.initialize_with(pypi))
     
     bpy.types.Scene.scripter = bpy.props.PointerProperty(type=SCRIPTER_PR_properties)
     
 def unregister():
-    for cls in classes:
+    for cls in scripter_classes:
         bpy.utils.unregister_class(cls)
     del bpy.types.Scene.scripter
     

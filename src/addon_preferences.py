@@ -37,6 +37,7 @@ class SCRIPTER_AP_addon_preferences(bpy.types.AddonPreferences):
         row.prop(scripter, "pip_libs_names")
         row.operator("scripter.pypi_add", text="", icon="ADD")
         row.operator("scripter.pypi_remove", text="", icon="REMOVE")
+        box.operator("scripter.pypi_update", text="UPDATE LIBRARIES", icon="FILE_REFRESH")
         
         
     def draw_credits_menu(self, box, scripter):

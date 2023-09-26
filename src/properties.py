@@ -7,12 +7,12 @@ from pathlib import Path
 import bpy
 from bpy.props import (StringProperty, EnumProperty)
 
-from .data import PYPI_libraries
+from .scripter import Pypi_Handler
   
     
 def pypi_generator(self, context):
 	current_view = []
-	for i, title in enumerate(PYPI_libraries):
+	for i, title in enumerate(Pypi_Handler._packages):
 		current_view.append((title, title, f"PYPI library: {title}", i))
 	return current_view
 
