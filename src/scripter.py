@@ -10,10 +10,12 @@ default_path = Path(os.path.expanduser("~")+"\.scripter\lib")
 
 class Pypi_Handler():
     _packages = set()
+    _packages_snap = set()
     _path = None
     
     def __init__(self):
         self.load()
+        self.make_snap()
         
     @property
     def path(self):
@@ -22,7 +24,12 @@ class Pypi_Handler():
     def update_packages(self):      
         for package in self._packages:
             if not package in os.listdir(self.path):
-                pip.main(["install", f"--target={self.path}", package])
+                self.install_package(package)
+
+            if package not in self._packages_snap:
+                self.uninstall_package(package)
+                
+        self.make_snap()
     
     def update_path(self, new_path: str):
         if self.path:
@@ -38,9 +45,11 @@ class Pypi_Handler():
         self._packages.remove(value)
         
     def load(self):
+        # here to deserialize from .scripter file
         self.update_path(default_path)
     
     def save(self):
+        # here to serialize to .scripter file
         pass
     
     def install_package(self, package: str):
@@ -51,4 +60,7 @@ class Pypi_Handler():
     
     def handle_dirs(self):
         self._path.mkdir(parents=True, exist_ok=True)
+        
+    def make_snap(self):
+        self._packages_snap = self._packages.copy()
         
