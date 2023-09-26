@@ -40,7 +40,8 @@ class SCRIPTER_OT_pypi_list_remove(bpy.types.Operator):
 	pypi: Pypi_Handler = None
 
 	def execute(self, context):
-		self.pypi.remove("pandas")
+		chosen_lib = bpy.context.scene.scripter.pip_libs_names
+		self.pypi.remove(chosen_lib)
 
 		return{'FINISHED'}
 	
