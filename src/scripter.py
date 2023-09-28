@@ -2,9 +2,10 @@
 
 
 from pathlib import Path
-import os, sys, pip
+import os, sys, pip, json
 
 
+settings_path = Path()/".scripter"
 default_path = Path(os.path.expanduser("~")+"\.scripter\lib")
 
 
@@ -32,11 +33,12 @@ class Pypi_Handler():
         self.make_snap()
     
     def update_path(self, new_path: str):
-        if self.path:
-            sys.path.remove(self.path)
-        self._path = Path(new_path)
-        sys.path.append(new_path)
-        self.handle_dirs()
+        if new_path:
+            if self.path:
+                sys.path.remove(self.path)
+            self._path = Path(new_path)
+            sys.path.append(new_path)
+            self.handle_dirs()
         
     def add(self, value: str):
         self._packages.add(value)
@@ -45,8 +47,11 @@ class Pypi_Handler():
         self._packages.remove(value)
         
     def load(self):
-        # here to deserialize from .scripter file
-        self.update_path(default_path)
+        settings = JSON_Parser.load_to_dict(settings_path)
+        print(settings)
+        
+        self.update_path(settings['lib_path'])
+        self._packages = set(settings['packages'])
     
     def save(self):
         # here to serialize to .scripter file
@@ -63,4 +68,18 @@ class Pypi_Handler():
         
     def make_snap(self):
         self._packages_snap = self._packages.copy()
-        
+
+
+class JSON_Parser():
+    
+    @staticmethod
+    def load_to_dict(path: str):
+        with open(path) as f:
+            loaded = json.load(f)
+            return loaded
+    
+    @staticmethod
+    def save_to_json(path: str, content: dict):
+        with open(path, "w") as f:
+            json_obj = json.dumps(content, indent = 4)
+            f.write(json_obj)
