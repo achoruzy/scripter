@@ -5,7 +5,7 @@ from pathlib import Path
 import os, sys, pip, json
 
 
-settings_path = Path()/".scripter"
+settings_path = Path(__file__).parent.resolve()/".scripter"
 default_path = Path(os.path.expanduser("~")+"\.scripter\lib")
 
 
@@ -27,35 +27,40 @@ class Pypi_Handler():
             if not package in os.listdir(self.path):
                 self.install_package(package)
 
-            if package not in self._packages_snap:
+        for package in self._packages_snap:
+            if package not in self._packages:
                 self.uninstall_package(package)
                 
         self.make_snap()
     
     def update_path(self, new_path: str):
-        if new_path:
-            if self.path:
-                sys.path.remove(self.path)
-            self._path = Path(new_path)
-            sys.path.append(new_path)
-            self.handle_dirs()
-        
+        if self.path:
+            sys.path.remove(self.path)
+        self._path = Path(new_path)
+        sys.path.append(new_path)
+        self.handle_dirs()
+        self.save()
+            
     def add(self, value: str):
         self._packages.add(value)
+        self.save()
         
     def remove(self, value: str):
         self._packages.remove(value)
+        self.save()
         
     def load(self):
         settings = JSON_Parser.load_to_dict(settings_path)
-        print(settings)
-        
-        self.update_path(settings['lib_path'])
-        self._packages = set(settings['packages'])
+        self.update_path(str(default_path))
+        self._packages.update(set(settings['packages']))
     
     def save(self):
-        # here to serialize to .scripter file
-        pass
+        content = {
+            "lib_path": str(self._path),
+            "packages": list(self._packages)
+        }
+        
+        JSON_Parser.save_to_json(settings_path, content)
     
     def install_package(self, package: str):
         pip.main(["install", f"--target={self.path}", package])
@@ -81,5 +86,4 @@ class JSON_Parser():
     @staticmethod
     def save_to_json(path: str, content: dict):
         with open(path, "w") as f:
-            json_obj = json.dumps(content, indent = 4)
-            f.write(json_obj)
+            json.dump(content, fp = f, indent = 4)
