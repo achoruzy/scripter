@@ -1,2 +1,2 @@
 zip:
-	tar -C .. -acf scripter.zip bl_scripter/__init__.py bl_scripter/src
+	tar -C .. -acf scripter.zip scripter/__init__.py scripter/src
