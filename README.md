@@ -1,6 +1,6 @@
 # Scripter
 
-Blender addon for using python packages.
+Blender addon for using python PYPI packages.
 
 ---
 
@@ -15,7 +15,7 @@ Addon installation is simple as always. Just download the release, then in Blend
 ### How to use
 
 All you need to do is to add `PYPI libraries`, click `UPDATE LIBRARIES` and then wait for a while to install them.
-![](image.png)
+![](.readme/image.png)
 
 NOTE! While installing, Blender is not responsive for some time. It is recommended to open Blender's console window (`Window -> Toggle System Console`) for installation observation. 
 
@@ -27,4 +27,4 @@ Please feel free to contribute with addon development.
 
 ---
 
-by inDustArk (Data Verft Arkadiusz Choruzy)
+Copyright (C) 2023 Arkadiusz Choruzy aka inDustArk

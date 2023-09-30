@@ -1,4 +1,4 @@
-# Copyright (C) 2023  Data Verft Arkadiusz Choruzy aka inDustArk
+# Copyright (C) 2023 Arkadiusz Choruzy aka inDustArk
 
 
 from pathlib import Path
