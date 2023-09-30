@@ -1,5 +1,5 @@
 # Scripter
-# Copyright (C) 2023  Data Verft Arkadiusz Choruzy aka inDustArk
+# Copyright (C) 2023 Arkadiusz Choruzy aka inDustArk
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -25,9 +25,9 @@ from .src.scripter import Pypi_Handler
 
 
 bl_info = {
-    "name": "bl_scripter",
+    "name": "Scripter",
     "description": "Tools and utils for scripting blender easier.",
-    "author": "Data Verft Arkadiusz Choruzy",
+    "author": "Arkadiusz Choruzy",
     "version": (2023, 0, 1),
     "blender": (3, 0, 0),
     "location": "Scripting",
