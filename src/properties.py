@@ -1,4 +1,4 @@
-# Copyright (C) 2023 Arkadiusz Choruzy aka inDustArk
+# Copyright (C) 2023 Arkadiusz Choruzy
 
 
 import os
